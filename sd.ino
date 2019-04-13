@@ -209,7 +209,7 @@ void sd_disable_roms(bool action) {
       removeDir(SD, "/roms");
       GO.lcd.println("\nROMS -> ROMS2");
     }
-    else{
+    else {
       GO.lcd.println("\nROMS -> ROMS2 FALLO");
     }
   }
@@ -218,9 +218,36 @@ void sd_disable_roms(bool action) {
       removeDir(SD, "/roms2");
       GO.lcd.println("\nROMS2 -> ROMS");
     }
-    else{
+    else {
       GO.lcd.println("\nROMS2 -> ROMS FALLO");
     }
   }
 
+}
+
+void sd_check_dir_status() {
+  static unsigned long t_status = 0;
+  static bool status = false;
+  File roms = SD.open("/roms");
+  if (!roms) {
+    //GO.lcd.print("No ROMS dir");
+    status = false;
+  }
+  else {
+    //GO.lcd.print("ROMS dir OK");
+    status = true;
+  }
+
+  if (millis() - t_status > 2000) {
+    t_status = millis();
+    GO.lcd.setCursor(0, 0);
+    if (status) {
+      GO.lcd.fillRect(0, 0, 320, 8,  GREEN);
+      GO.lcd.print("CODIGO DESBLOQUEADO");
+    }
+    else {
+      GO.lcd.fillRect(0, 0, 320, 8,  RED);
+      GO.lcd.print("CODIGO BLOQUEADO");
+    }
+  }
 }

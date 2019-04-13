@@ -7,7 +7,7 @@ const char clave[] = "ADA";
 char respuesta[MAX_POS];
 
 byte letra_pos_x = 0;
-byte letra_pos_y = 50;
+byte letra_pos_y = 100;
 byte letra_idx = 0;
 byte pos = 0; // Posición del array donde guardamos la respuesta
 

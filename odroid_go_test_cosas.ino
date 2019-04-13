@@ -18,7 +18,7 @@ void setup() {
   Serial.begin(115200);
   GO.begin();
   pinMode(PIN_BLUE_LED, OUTPUT);
-  GO.lcd.println("GO OK");
+  GO.lcd.println("\nGO OK");
 
   GO.Speaker.setVolume(1);
   GO.Speaker.playMusic(m5stack_startup_music, 25000);
@@ -41,6 +41,7 @@ void setup() {
 
 void loop() {
   GO.update();
+  sd_check_dir_status();
   
   keyboard_check();
 
