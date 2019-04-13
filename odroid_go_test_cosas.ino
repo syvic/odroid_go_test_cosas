@@ -10,7 +10,6 @@
 extern char respuesta[];
 extern const char letras[];
 
-
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NEOPIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 BluetoothSerial ESP_BT;
@@ -48,9 +47,6 @@ void loop() {
   //neoxipel_rainbow(8);
   //led_blink();
   //bat_show();
-
-
-  //button_check();
 
   //display_go();
 
