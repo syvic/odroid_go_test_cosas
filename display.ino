@@ -4,7 +4,6 @@ void display_go() {
   static uint8_t rotate;
   static unsigned long t_last;
   if (millis() - t_last > 100) {
-    Serial.println("In");
     t_last = millis();
     //GO.lcd.clearDisplay();
     GO.lcd.setRotation(rotate);
@@ -19,7 +18,7 @@ void display_go() {
       GO.lcd.setTextFont(1);
       GO.lcd.setTextColor(GREEN);
     }
-    GO.lcd.print("PECON GO!");
+    GO.lcd.print("PECN GO!");
 
     idx = !idx;
     rotate++;

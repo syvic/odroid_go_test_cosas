@@ -43,9 +43,8 @@ void keyboard_check() {
     }
 
     if (GO.JOY_X.isAxisPressed() == 1) { //Tecla derecha
-      if (pos == MAX_POS-1) return;
+      if (pos == MAX_POS) return;
       letra_pos_x += PASO_LETRAS;
-      respuesta[pos] = letra_idx;
       pos++;
       GO.lcd.fillRect(0, letra_pos_y + 8, 240, 2,  BLACK);
       GO.lcd.fillRect(letra_pos_x, letra_pos_y + 8, 5, 2,  RED);
@@ -58,6 +57,7 @@ void keyboard_check() {
       if (letra_idx == 38) letra_idx = 0;
       GO.lcd.fillRect(letra_pos_x, letra_pos_y, 5, 7,  DARKCYAN);
       GO.lcd.setCursor(letra_pos_x, letra_pos_y);
+      respuesta[pos] = letra_idx;
       GO.lcd.write(letras[letra_idx]);
       GO.Speaker.tone(200, 5);
     }
@@ -67,6 +67,7 @@ void keyboard_check() {
       if (letra_idx == 255) letra_idx = 38;
       GO.lcd.fillRect(letra_pos_x, letra_pos_y, 5, 7,  DARKCYAN);
       GO.lcd.setCursor(letra_pos_x, letra_pos_y);
+      respuesta[pos] = letra_idx;
       GO.lcd.write(letras[letra_idx]);
       GO.Speaker.tone(200, 5);
     }
