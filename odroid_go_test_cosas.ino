@@ -33,6 +33,9 @@ void setup() {
 
   //delay(5000);
   GO.lcd.println("Ready!");
+  
+  sd_init();
+  sd_info();
   keyboard_first();
 }
 

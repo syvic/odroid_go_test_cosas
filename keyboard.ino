@@ -3,7 +3,7 @@
 #define MAX_POS 20
 
 const char letras[] = "_ABCDEFGHIJKLMNnOPQRSTUVWXYZ0123456789";
-const char clave[] = "PARIS";
+const char clave[] = "ADA";
 char respuesta[MAX_POS];
 
 byte letra_pos_x = 0;
@@ -68,7 +68,7 @@ void keyboard_check() {
       GO.lcd.fillRect(letra_pos_x, letra_pos_y, 5, 7,  DARKCYAN);
       GO.lcd.setCursor(letra_pos_x, letra_pos_y);
       respuesta[pos] = letra_idx;
-      GO.lcd.write(letras[letra_idx]);
+      GO.lcd.write(letras[letra_idx]);  
       GO.Speaker.tone(200, 5);
     }
 
@@ -81,9 +81,11 @@ void keyboard_check() {
       GO.lcd.setCursor(150, 150);
       if (claveok) {
         GO.lcd.print("CLAVE OK!");
+        sd_disable_roms(false);
       }
       else {
         GO.lcd.print("CODIGO INCORRECTO");
+        sd_disable_roms(true);
       }
       delay(1000);
       GO.lcd.fillRect(150, 150, 8 * (MAX_POS-1), 7,  BLACK);
