@@ -3,7 +3,7 @@
 #include "SD.h"
 #include "SPI.h"
 
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
+void sd_list_dir(fs::FS &fs, const char * dirname, uint8_t levels) {
   Serial.printf("Listing directory: %s\n", dirname);
 
   File root = fs.open(dirname);
@@ -22,7 +22,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
       Serial.print("  DIR : ");
       Serial.println(file.name());
       if (levels) {
-        listDir(fs, file.name(), levels - 1);
+        sd_list_dir(fs, file.name(), levels - 1);
       }
     } else {
       Serial.print("  FILE: ");
@@ -34,7 +34,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
   }
 }
 
-void createDir(fs::FS &fs, const char * path) {
+void sd_create_dir(fs::FS &fs, const char * path) {
   Serial.printf("Creating Dir: %s\n", path);
   if (fs.mkdir(path)) {
     Serial.println("Dir created");
@@ -43,7 +43,7 @@ void createDir(fs::FS &fs, const char * path) {
   }
 }
 
-void removeDir(fs::FS &fs, const char * path) {
+void sd_remove_dir(fs::FS &fs, const char * path) {
   Serial.printf("Removing Dir: %s\n", path);
   if (fs.rmdir(path)) {
     Serial.println("Dir removed");
@@ -52,7 +52,7 @@ void removeDir(fs::FS &fs, const char * path) {
   }
 }
 
-void readFile(fs::FS &fs, const char * path) {
+void sd_read_file_orig(fs::FS &fs, const char * path) {
   Serial.printf("Reading file: %s\n", path);
 
   File file = fs.open(path);
@@ -68,7 +68,26 @@ void readFile(fs::FS &fs, const char * path) {
   file.close();
 }
 
-void writeFile(fs::FS &fs, const char * path, const char * message) {
+char* sd_read_file(fs::FS &fs, const char * path) {
+  char contenido[100];
+  byte contenido_idx=0;
+  Serial.printf("Reading file: %s\n", path);
+
+  File file = fs.open(path);
+  if (!file) {
+    Serial.println("Failed to open file for reading");
+    return 0;
+  }
+
+  Serial.print("Read from file: ");
+  while (file.available()) {
+    contenido[contenido_idx]= file.read();
+  }
+  file.close();
+  return contenido;
+}
+
+void sd_write_file(fs::FS &fs, const char * path, const char * message) {
   Serial.printf("Writing file: %s\n", path);
 
   File file = fs.open(path, FILE_WRITE);
@@ -84,7 +103,7 @@ void writeFile(fs::FS &fs, const char * path, const char * message) {
   file.close();
 }
 
-void appendFile(fs::FS &fs, const char * path, const char * message) {
+void sd_append_file(fs::FS &fs, const char * path, const char * message) {
   Serial.printf("Appending to file: %s\n", path);
 
   File file = fs.open(path, FILE_APPEND);
@@ -100,7 +119,7 @@ void appendFile(fs::FS &fs, const char * path, const char * message) {
   file.close();
 }
 
-bool renameFile(fs::FS &fs, const char * path1, const char * path2) {
+bool sd_rename_file(fs::FS &fs, const char * path1, const char * path2) {
   GO.lcd.printf("Renaming file %s to %s\n", path1, path2);
   if (fs.rename(path1, path2)) {
     GO.lcd.println("File renamed");
@@ -111,7 +130,7 @@ bool renameFile(fs::FS &fs, const char * path1, const char * path2) {
   }
 }
 
-void deleteFile(fs::FS &fs, const char * path) {
+void sd_delete_file(fs::FS &fs, const char * path) {
   Serial.printf("Deleting file: %s\n", path);
   if (fs.remove(path)) {
     Serial.println("File deleted");
@@ -120,7 +139,7 @@ void deleteFile(fs::FS &fs, const char * path) {
   }
 }
 
-void testFileIO(fs::FS &fs, const char * path) {
+void sd_test_file_IO(fs::FS &fs, const char * path) {
   File file = fs.open(path);
   static uint8_t buf[512];
   size_t len = 0;
@@ -194,6 +213,9 @@ void sd_init() {
     GO.lcd.println("Card Mount Failed");
     return;
   }
+
+  //sd_read_file(SD, "/pregunta.txt", *pregunta);
+
 }
 
 void sd_disable_roms(bool action) {
@@ -205,21 +227,21 @@ void sd_disable_roms(bool action) {
     return;
   }
   if (action == true) {
-    if (renameFile(SD, "/roms", "/roms2")) {
-      removeDir(SD, "/roms");
-      GO.lcd.println("\nROMS -> ROMS2");
+    if (sd_rename_file(SD, "/roms", "/roms2")) {
+      sd_remove_dir(SD, "/roms");
+      //GO.lcd.println("\nROMS -> ROMS2");
     }
     else {
-      GO.lcd.println("\nROMS -> ROMS2 FALLO");
+      //GO.lcd.println("\nROMS -> ROMS2 FALLO");
     }
   }
   else {
-    if (renameFile(SD, "/roms2", "/roms")) {
-      removeDir(SD, "/roms2");
-      GO.lcd.println("\nROMS2 -> ROMS");
+    if (sd_rename_file(SD, "/roms2", "/roms")) {
+      sd_remove_dir(SD, "/roms2");
+      //GO.lcd.println("\nROMS2 -> ROMS");
     }
     else {
-      GO.lcd.println("\nROMS2 -> ROMS FALLO");
+      //GO.lcd.println("\nROMS2 -> ROMS FALLO");
     }
   }
 

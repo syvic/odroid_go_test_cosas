@@ -9,6 +9,8 @@
 
 extern char respuesta[];
 extern const char letras[];
+extern const char pregunta[];
+
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NEOPIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -20,7 +22,7 @@ void setup() {
   pinMode(PIN_BLUE_LED, OUTPUT);
   GO.lcd.println("\nGO OK");
 
-  GO.Speaker.setVolume(1);
+  GO.Speaker.setVolume(1); //El volumen va de 0 a 11. Parece que 11 es apagado
   GO.Speaker.playMusic(m5stack_startup_music, 25000);
 
   strip.begin();
