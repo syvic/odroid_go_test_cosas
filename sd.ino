@@ -52,39 +52,22 @@ void sd_remove_dir(fs::FS &fs, const char * path) {
   }
 }
 
-void sd_read_file_orig(fs::FS &fs, const char * path) {
-  Serial.printf("Reading file: %s\n", path);
+void sd_read_file(fs::FS &fs, const char * path, char *lectura) {
+  int i=0;
+  //GO.lcd.printf("Reading file: %s\n", path);
 
   File file = fs.open(path);
   if (!file) {
-    Serial.println("Failed to open file for reading");
+    GO.lcd.println("Failed to open file for reading");
     return;
   }
 
-  Serial.print("Read from file: ");
+  //GO.lcd.print("Read from file: ");
   while (file.available()) {
-    Serial.write(file.read());
+    lectura[i++] = file.read();
   }
+  lectura[i]=0; //Cerramos array
   file.close();
-}
-
-char* sd_read_file(fs::FS &fs, const char * path) {
-  char contenido[100];
-  byte contenido_idx=0;
-  Serial.printf("Reading file: %s\n", path);
-
-  File file = fs.open(path);
-  if (!file) {
-    Serial.println("Failed to open file for reading");
-    return 0;
-  }
-
-  Serial.print("Read from file: ");
-  while (file.available()) {
-    contenido[contenido_idx]= file.read();
-  }
-  file.close();
-  return contenido;
 }
 
 void sd_write_file(fs::FS &fs, const char * path, const char * message) {
@@ -92,13 +75,13 @@ void sd_write_file(fs::FS &fs, const char * path, const char * message) {
 
   File file = fs.open(path, FILE_WRITE);
   if (!file) {
-    Serial.println("Failed to open file for writing");
+    GO.lcd.println("Failed to open file for writing");
     return;
   }
   if (file.print(message)) {
-    Serial.println("File written");
+    GO.lcd.println("File written");
   } else {
-    Serial.println("Write failed");
+    GO.lcd.println("Write failed");
   }
   file.close();
 }
@@ -214,7 +197,13 @@ void sd_init() {
     return;
   }
 
-  //sd_read_file(SD, "/pregunta.txt", *pregunta);
+  sd_read_file(SD, "/pregunta.txt", pregunta);
+  sd_read_file(SD, "/respuesta.txt", clave);
+
+  //GO.lcd.println("En el fichero pregunta hay esto: ");
+  //GO.lcd.println(pregunta);
+  //GO.lcd.println("En el fichero respuesta hay esto: ");
+  //GO.lcd.println(clave);
 
 }
 

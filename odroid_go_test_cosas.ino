@@ -9,7 +9,7 @@
 
 extern char respuesta[];
 extern const char letras[];
-extern const char pregunta[];
+extern char pregunta[];
 
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NEOPIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);

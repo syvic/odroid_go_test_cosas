@@ -3,8 +3,8 @@
 #define MAX_POS 20
 
 const char letras[] = "_ABCDEFGHIJKLMNnOPQRSTUVWXYZ0123456789";
-const char pregunta[100] = "CUAL ES LA CAPITAL DE FRANCIA?";
-const char clave[40] = "PARIS";
+char pregunta[100] = "CUAL ES LA CAPITAL DE FRANCIA?";
+char clave[40] = "PARIS";
 char respuesta[MAX_POS];
 
 byte letra_pos_x = 0;
@@ -13,8 +13,10 @@ byte letra_idx = 0;
 byte pos = 0; // Posición del array donde guardamos la respuesta
 
 void keyboard_first() {
-  GO.lcd.setCursor(letra_pos_x, letra_pos_y - 10);
+  GO.lcd.setCursor(letra_pos_x, letra_pos_y - 15);
+  GO.lcd.setTextSize(2);
   GO.lcd.print(pregunta);
+  GO.lcd.setTextSize(1);
   GO.lcd.fillRect(letra_pos_x, letra_pos_y + 8, 5, 2,  RED);
 }
 
