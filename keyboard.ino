@@ -92,7 +92,7 @@ void keyboard_check() {
         GO.Speaker.tone(900, 100);
         delay(100);
         GO.Speaker.tone(1100, 300);
-        delay(250);
+        delay(300);
 
       }
       else {
