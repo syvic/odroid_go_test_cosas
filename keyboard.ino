@@ -13,7 +13,7 @@ byte letra_idx = 0;
 byte pos = 0; // Posición del array donde guardamos la respuesta
 
 void keyboard_first() {
-  GO.lcd.setCursor(letra_pos_x, letra_pos_y - 15);
+  GO.lcd.setCursor(letra_pos_x, letra_pos_y - 20);
   GO.lcd.setTextSize(2);
   GO.lcd.print(pregunta);
   GO.lcd.setTextSize(1);
